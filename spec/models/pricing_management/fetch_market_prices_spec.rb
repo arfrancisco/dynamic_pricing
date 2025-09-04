@@ -12,6 +12,7 @@ RSpec.describe PricingManagement::FetchMarketPrices do
     end
 
     it 'attempts to fetch market prices from the external API' do
+      allow(PricingManagement::FetchMarketPrices).to receive(:api_key).and_return('test_api_key')
       allow(Net::HTTP).to receive(:get).and_return(response.to_json)
 
       result = described_class.call
