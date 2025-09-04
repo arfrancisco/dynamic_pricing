@@ -20,6 +20,8 @@ module PricingManagement
           increase_ratio
         elsif quantity_ordered <= low_threshold
           decrease_ratio
+        else
+          0
         end
       end
 

@@ -22,4 +22,13 @@ RSpec.describe PricingManagement::Calibrators::ByInventoryLevel do
       expect(calibrator.call).to eq(-0.05)
     end
   end
+
+  context 'when inventory level is neither low nor high' do
+    let(:quantity) { 50 }
+
+    it 'returns zero' do
+      calibrator = described_class.new(product:)
+      expect(calibrator.call).to eq(0.0)
+    end
+  end
 end

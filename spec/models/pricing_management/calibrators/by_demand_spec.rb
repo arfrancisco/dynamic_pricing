@@ -34,4 +34,19 @@ RSpec.describe PricingManagement::Calibrators::ByDemand do
       expect(calibrator.call).to eq(-0.05)
     end
   end
+
+  context 'when demand is neither high nor low' do
+    before do
+      FactoryBot.create_list(:order, 5,
+        order_items: [
+          FactoryBot.create(:order_item, product_id: product.id, quantity: 5)
+        ]
+      )
+    end
+
+    it 'returns zero' do
+      calibrator = described_class.new(product:)
+      expect(calibrator.call).to eq(0.0)
+    end
+  end
 end

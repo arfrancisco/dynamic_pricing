@@ -19,6 +19,8 @@ module PricingManagement
           decrease_ratio
         elsif product.quantity <= lower_threshold
           increase_ratio
+        else
+          0
         end
       end
 

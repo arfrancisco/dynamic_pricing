@@ -1,7 +1,9 @@
-class PricingManagement::UpdatePricesJob
-  include Sidekiq::Job
+module PricingManagement
+  class UpdatePricesJob
+    include Sidekiq::Job
 
-  def perform
-    ::PricingManagement.system_updates_adjusted_prices
+    def perform
+      ::PricingManagement.system_updates_adjusted_prices
+    end
   end
 end
