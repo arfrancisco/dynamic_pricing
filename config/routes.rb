@@ -12,5 +12,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  resources :products, only: [:show], param: :product_id
+  resources :products, only: [:show], param: :product_id, format: :json
+  resources :orders, only: [:create], format: :json
 end
