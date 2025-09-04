@@ -1,0 +1,33 @@
+development:
+  clients:
+    default:
+      database: dynamic_pricing_development
+      hosts:
+        - db:27017
+      options:
+        auth_source: admin
+        user: root
+        password: secret
+        connect_timeout: 30
+        socket_timeout: 30
+        server_selection_timeout: 30
+        max_pool_size: 5
+        min_pool_size: 1
+        wait_queue_timeout: 5
+
+test:
+  clients:
+    default:
+      database: dynamic_pricing_test
+      hosts:
+        - db:27017
+      options:
+        auth_source: admin
+        user: root
+        password: secret
+        connect_timeout: 30
+        socket_timeout: 30
+        server_selection_timeout: 30
+        max_pool_size: 5
+        min_pool_size: 1
+        wait_queue_timeout: 5
