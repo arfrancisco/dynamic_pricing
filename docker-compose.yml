@@ -1,0 +1,19 @@
+services:
+  db:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    volumes:
+      - ./mongo-data:/data/db
+  web:
+    build: .
+    volumes:
+      - .:/dynamic_pricing
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+volumes:
+  mongo-data:
