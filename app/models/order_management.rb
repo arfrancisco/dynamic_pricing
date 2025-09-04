@@ -11,6 +11,7 @@ module OrderManagement
       ViewProduct.call(product_id:)
     end
 
+    # @param email [String] The email of the customer placing the order
     # @param products_array [Array<Hash>] Array of products with :product_id, :quantity, and :price keys
     # @param products_array[:product_id] [BSON::ObjectId] The ID of the product to be ordered
     # @param products_array[:quantity] [Integer] The quantity of the product to be
@@ -23,8 +24,8 @@ module OrderManagement
     # @return Order[:order_items][:product_id] [BSON::ObjectId]
     # @return Order[:order_items][:quantity] [Integer]
     # @return Order[:order_items][:price] [Integer]
-    def customer_places_order(products_array:)
-      PlaceOrder.call(products_array:)
+    def customer_places_order(email:, products_array:)
+      PlaceOrder.call(email:, products_array:)
     end
   end
 end

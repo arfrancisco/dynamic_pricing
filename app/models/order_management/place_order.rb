@@ -10,13 +10,14 @@ module OrderManagement
       :price,
     ].freeze
 
-    attr_reader :products_array
+    attr_reader :email, :products_array
 
-    def self.call(products_array:)
-      new(products_array:).call
+    def self.call(email:, products_array:)
+      new(email:, products_array:).call
     end
 
-    def initialize(products_array:)
+    def initialize(email:, products_array:)
+      @email = email
       @products_array = products_array
     end
 
@@ -30,6 +31,7 @@ module OrderManagement
     private
 
     def validate_arguments
+      raise InvalidArgumentError, "email is required" if email.nil? || email.strip.empty?
       raise InvalidArgumentError, "products_array must be an array of hashes" unless products_array.is_a?(Array)
 
       # Check if each item has all required keys
@@ -71,7 +73,7 @@ module OrderManagement
     end
 
     def create_order
-      order = Order.create
+      order = Order.create(email:)
       products_array.each do |order_item|
         product = Product.where(id: order_item[:product_id]).first
 

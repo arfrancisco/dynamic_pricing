@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   def create
-    order = ::OrderManagement::PlaceOrder.call(products_array: permitted_params[:products_array])
+    order = ::OrderManagement::PlaceOrder.call(email: permitted_params[:email], products_array: permitted_params[:products_array])
 
     render json: order, status: :ok
   rescue OrderManagement::PlaceOrder::InvalidArgumentError => e
@@ -14,6 +14,6 @@ class OrdersController < ApplicationController
   private
 
   def permitted_params
-    params.permit(products_array: [:product_id, :quantity, :price])
+    params.permit(:email, products_array: [:product_id, :quantity, :price])
   end
 end

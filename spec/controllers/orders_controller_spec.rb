@@ -4,12 +4,15 @@ require 'rails_helper'
 
 RSpec.describe OrdersController, type: :controller do
   describe '.create' do
+    let(:email) { 'test@mailer.com' }
+
     context 'when placing a valid order' do
       let(:coffee) { FactoryBot.create(:product, name: 'coffee', category: 'drinks', default_price: 100, adjusted_price: 80, quantity: 100) }
       let(:tea) { FactoryBot.create(:product, name: 'tea', category: 'drinks', default_price: 50, adjusted_price: 40, quantity: 50) }
 
       let(:params) do
         {
+          email:,
           products_array: [
             { product_id: coffee.id, quantity: 2, price: 80 },
             { product_id: tea.id, quantity: 3, price: 40 }
@@ -28,6 +31,7 @@ RSpec.describe OrdersController, type: :controller do
       it 'returns the order details' do
         parsed_response = JSON.parse(response.body)
 
+        expect(parsed_response['email']).to eq(email)
         expect(parsed_response['total_price']).to eq(280)
         order_items = parsed_response['order_items'].map do |order_item|
           {
@@ -45,7 +49,7 @@ RSpec.describe OrdersController, type: :controller do
     end
 
     context 'when placing an order with an invalid product ID' do
-      let(:params) { { products_array: [{ product_id: 123, quantity: 2, price: 80 }] } }
+      let(:params) { { email:, products_array: [{ product_id: 123, quantity: 2, price: 80 }] } }
 
       it 'returns a not found status with an error message' do
         post(:create, params:)
@@ -58,7 +62,7 @@ RSpec.describe OrdersController, type: :controller do
     end
 
     context 'when placing an order with invalid parameters' do
-      let(:params) { { products_array: 'invalid_string_instead_of_array' } }
+      let(:params) { { email:, products_array: 'invalid_string_instead_of_array' } }
 
       it 'returns a bad request status with an error message' do
         post(:create, params:)
@@ -72,7 +76,7 @@ RSpec.describe OrdersController, type: :controller do
 
     context 'when placing an order with insufficient stock' do
       let(:coffee) { FactoryBot.create(:product, name: 'coffee', category: 'drinks', default_price: 100, adjusted_price: 80, quantity: 100) }
-      let(:params) { { products_array: [{ product_id: coffee.id, quantity: 200, price: 80 }] } }
+      let(:params) { { email:, products_array: [{ product_id: coffee.id, quantity: 200, price: 80 }] } }
 
       it 'returns a bad request status with an error message' do
         post(:create, params:)

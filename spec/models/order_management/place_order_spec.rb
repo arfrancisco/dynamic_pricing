@@ -4,8 +4,9 @@ require 'rails_helper'
 
 RSpec.describe OrderManagement::PlaceOrder do
   describe '.call' do
-    subject(:place_order) { described_class.call(products_array:) }
+    subject(:place_order) { described_class.call(email:, products_array:) }
 
+    let(:email) { 'test@mailer.com' }
     let(:coffee) { FactoryBot.create(:product, name: 'coffee', category: 'drinks', default_price: 100, adjusted_price: 80, quantity: 100) }
     let(:tea) { FactoryBot.create(:product, name: 'tea', category: 'drinks', default_price: 50, adjusted_price: 40, quantity: 50) }
 

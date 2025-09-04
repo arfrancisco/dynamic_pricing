@@ -13,10 +13,11 @@ RSpec.describe OrderManagement do
 
   describe '.customer_places_order' do
     it 'delegates to OrderManagement::PlaceOrder' do
+      email = 'test@mailer.col'
       products_array = [{ product_id: 1, quantity: 2, price: 80 }]
-      expect(OrderManagement::PlaceOrder).to receive(:call).with(products_array:)
+      expect(OrderManagement::PlaceOrder).to receive(:call).with(email:, products_array:)
 
-      OrderManagement.customer_places_order(products_array:)
+      OrderManagement.customer_places_order(email:, products_array:)
     end
   end
 end
